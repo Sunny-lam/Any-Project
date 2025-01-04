@@ -1,8 +1,8 @@
-# MyAI-V1 Weight File Documentation
+# SunnyAI-V1 Weight File Documentation
 
 ## New Fields in `config.json`
 
-- **model_type**: Specifies the model type, which is updated to `MyAI_V1` in this release.
+- **model_type**: Specifies the model type, which is updated to `SunnyAI_V1` in this release.
 - **num_nextn_predict_layers**: Indicates the number of Multi-Token Prediction (MTP) Modules. The open-sourced V1 weights include **1 MTP Module** .
 - **quantization_config**: Describes the configuration for FP8 quantization.
 
@@ -10,7 +10,7 @@
 
 ## Weight Structure Overview
 
-The MyAI-V1 weight file consists of two main components: **Main Model Weights** and **MTP Modules**.
+The SunnyAI-V1 weight file consists of two main components: **Main Model Weights** and **MTP Modules**.
 
 ### 1. Main Model Weights
 
@@ -59,7 +59,7 @@ The MyAI-V1 weight file consists of two main components: **Main Model Weights** 
 
 ## FP8 Weight Documentation
 
-MyAI-V1 natively supports FP8 weight format with 128x128 block scaling.
+SunnyAI-V1 natively supports FP8 weight format with 128x128 block scaling.
 
 ### FP8 Configuration
 
