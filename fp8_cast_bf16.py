@@ -71,11 +71,9 @@ def main(fp8_path, bf16_path):
     with open(new_model_index_file, "w") as f:
         json.dump({"metadata": {}, "weight_map": weight_map}, f, indent=2)
         
-
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--input-fp8-hf-path", type=str, required=True)
     parser.add_argument("--output-bf16-hf-path", type=str, required=True)
     args = parser.parse_args()
     main(args.input_fp8_hf_path, args.output_bf16_hf_path)
-    
