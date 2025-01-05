@@ -1,3 +1,16 @@
+const botResponses = [
+    "Hi there! How can I help you today?",
+    "I'm here to assist you with any questions you have.",
+    "Can you please provide more details?",
+    "Thank you for reaching out!",
+    "I'm sorry, I don't understand. Can you rephrase?"
+];
+
+function getBotResponse() {
+    const randomIndex = Math.floor(Math.random() * botResponses.length);
+    return botResponses[randomIndex];
+}
+
 function sendMessage() {
     const userInput = document.getElementById('user-input');
     const chatBox = document.getElementById('chat-box');
@@ -20,34 +33,20 @@ function sendMessage() {
         chatBox.appendChild(userMessageElement);
         userInput.value = '';
 
-        // Send user message to backend and display bot response
-        fetch('http://your-backend-url/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: userMessage })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Display bot message with profile picture and timestamp
-            const botMessageElement = document.createElement('div');
-            botMessageElement.className = 'chat-message bot';
-            const timestamp = new Date().toLocaleTimeString();
-            botMessageElement.innerHTML = `
-                <div class="profile-pic">
-                    <img src="bot/profile-pic.jpg" alt="Bot Profile Picture">
-                </div>
-                <div class="message-text">
-                    ${data.response}
-                    <div class="timestamp">${timestamp}</div>
-                </div>
-            `;
-            chatBox.appendChild(botMessageElement);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        // Display bot response
+        const botMessageElement = document.createElement('div');
+        botMessageElement.className = 'chat-message bot';
+        const botResponse = getBotResponse();
+        botMessageElement.innerHTML = `
+            <div class="profile-pic">
+                <img src="bot/profile-pic.jpg" alt="Bot Profile Picture">
+            </div>
+            <div class="message-text">
+                ${botResponse}
+                <div class="timestamp">${timestamp}</div>
+            </div>
+        `;
+        chatBox.appendChild(botMessageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
