@@ -14,59 +14,60 @@ body {
     max-width: 600px;
     max-height: 90vh;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
 .chat-header {
-    background-color: #007bff;
+    background-color: #1e1e1e;
     color: white;
-    padding: 10px;
+    padding: 15px;
     text-align: center;
+    font-size: 1.2em;
 }
 
 .chat-box {
     flex: 1;
-    padding: 10px;
+    padding: 15px;
     overflow-y: auto;
-    border-bottom: 1px solid #f4f4f4;
+    border-bottom: 1px solid #dcdcdc;
 }
 
 .chat-input {
     display: flex;
-    padding: 10px;
-    border-top: 1px solid #f4f4f4;
+    padding: 15px;
+    border-top: 1px solid #dcdcdc;
 }
 
 .chat-input input {
     flex: 1;
-    padding: 10px;
-    border: 1px solid #f4f4f4;
-    border-radius: 4px;
-    margin-right: 10px;
+    padding: 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    margin-right: 15px;
     outline: none;
 }
 
 .chat-input button {
-    padding: 10px 20px;
+    padding: 15px 25px;
     border: none;
-    background-color: #007bff;
+    background-color: #1e1e1e;
     color: white;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 .chat-input button:hover {
-    background-color: #0056b3;
+    background-color: #333;
 }
 
 .chat-message {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .chat-message.user {
@@ -78,31 +79,31 @@ body {
 }
 
 .profile-pic {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 15px;
 }
 
 .chat-message.user .profile-pic {
-    margin-left: 10px;
+    margin-left: 15px;
     margin-right: 0;
 }
 
 .message-text {
-    max-width: 70%;
+    max-width: 75%;
     background-color: #e8e8e8;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 .chat-message.user .message-text {
-    background-color: #007bff;
+    background-color: #1e1e1e;
     color: white;
 }
 
 .timestamp {
-    font-size: 0.75em;
+    font-size: 0.8em;
     color: #888;
     margin-top: 5px;
     text-align: right;
