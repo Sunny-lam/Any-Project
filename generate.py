@@ -10,12 +10,10 @@ from safetensors.torch import load_model
 
 from model import Transformer, ModelArgs
 
-
 def sample(logits, temperature: float = 1.0):
     logits = logits / max(temperature, 1e-5)
     probs = torch.softmax(logits, dim=-1)
     return probs.div_(torch.empty_like(probs).exponential_(1)).argmax(dim=-1)
-
 
 @torch.inference_mode()
 def generate(
@@ -53,7 +51,6 @@ def generate(
             toks = toks[:toks.index(eos_id)]
         completion_tokens.append(toks)
     return completion_tokens
-
 
 def main(
     ckpt_path: str,
@@ -123,7 +120,6 @@ def main(
     if world_size > 1:
         dist.destroy_process_group()
 
-
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--ckpt-path", type=str, required=True)
@@ -131,7 +127,7 @@ if __name__ == "__main__":
     parser.add_argument("--input-file", type=str, default="")
     parser.add_argument("--interactive", action="store_true")
     parser.add_argument("--max-new-tokens", type=int, default=200)
-    parser.add_argument("--temperature", type=float, default=0.2)
+    parser.add_argument("--temperature", type=float, default 0.2)
     args = parser.parse_args()
     assert args.input_file or args.interactive
     main(args.ckpt_path, args.config, args.input_file, args.interactive, args.max_new_tokens, args.temperature)
