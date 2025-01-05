@@ -7,7 +7,6 @@ from tqdm import tqdm, trange
 import torch
 from safetensors.torch import safe_open, save_file
 
-
 mapping = {
     "embed_tokens": ("embed", 0),
     "input_layernorm": ("attn_norm", None),
@@ -28,7 +27,6 @@ mapping = {
     "lm_head": ("head", 0),
     "scale": ("scale", None),
 }
-
 
 def main(hf_ckpt_path, save_path, n_experts, mp):
     torch.set_num_threads(8)
@@ -71,7 +69,6 @@ def main(hf_ckpt_path, save_path, n_experts, mp):
     for file_path in glob(os.path.join(hf_ckpt_path, "*token*")):
         new_file_path = os.path.join(save_path, os.path.basename(file_path))
         shutil.copyfile(file_path, new_file_path)
-
 
 if __name__ == "__main__":
     parser = ArgumentParser()
