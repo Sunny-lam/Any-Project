@@ -1,23 +1,9 @@
-const botResponses = [
-    "Hi there! How can I help you today?",
-    "I'm here to assist you with any questions you have.",
-    "Can you please provide more details?",
-    "Thank you for reaching out!",
-    "I'm sorry, I don't understand. Can you rephrase?"
-];
-
-function getBotResponse() {
-    const randomIndex = Math.floor(Math.random() * botResponses.length);
-    return botResponses[randomIndex];
-}
-
-function sendMessage() {
+async function sendMessage() {
     const userInput = document.getElementById('user-input');
     const chatBox = document.getElementById('chat-box');
     const userMessage = userInput.value.trim();
 
     if (userMessage) {
-        // Display user message with profile picture and timestamp
         const userMessageElement = document.createElement('div');
         userMessageElement.className = 'chat-message user';
         const timestamp = new Date().toLocaleTimeString();
@@ -33,10 +19,18 @@ function sendMessage() {
         chatBox.appendChild(userMessageElement);
         userInput.value = '';
 
-        // Display bot response
+        // Tokenize user message
+        const promptTokens = tokenize(userMessage);
+
+        // Load the model (if not already loaded)
+        const model = await loadModel();
+
+        // Generate bot response
+        const botResponseTokens = await generate(model, [promptTokens], 50, -1, 1.0);
+        const botResponse = detokenize(botResponseTokens[0]);
+
         const botMessageElement = document.createElement('div');
         botMessageElement.className = 'chat-message bot';
-        const botResponse = getBotResponse();
         botMessageElement.innerHTML = `
             <div class="profile-pic">
                 <img src="bot/profile-pic.jpg" alt="Bot Profile Picture">
@@ -49,4 +43,81 @@ function sendMessage() {
         chatBox.appendChild(botMessageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
+}
+
+// Helper function to tokenize messages
+function tokenize(message) {
+    return message.split(' ').map(word => word.charCodeAt(0));
+}
+
+// Helper function to detokenize messages
+function detokenize(tokens) {
+    return tokens.map(token => String.fromCharCode(token)).join(' ');
+}
+
+// Placeholder function to load and initialize the model
+async function loadModel() {
+    const model = {
+        maxSeqLen: 512,
+        forward: async (tokens, position) => {
+            return tokens.map(token => token + 1);
+        }
+    };
+    return model;
+}
+
+// Sample function
+function sample(logits, temperature = 1.0) {
+    logits = logits.map(logit => logit / Math.max(temperature, 1e-5));
+    let probs = softmax(logits);
+    return probs.map(prob => prob / Math.random()).indexOf(Math.max(...probs));
+}
+
+function softmax(logits) {
+    let maxLogit = Math.max(...logits);
+    let exps = logits.map(logit => Math.exp(logit - maxLogit));
+    let sumExps = exps.reduce((a, b) => a + b, 0);
+    return exps.map(exp => exp / sumExps);
+}
+
+// Generate function
+async function generate(model, promptTokens, maxNewTokens, eosId, temperature = 1.0) {
+    const promptLens = promptTokens.map(t => t.length);
+    const maxPromptLen = Math.max(...promptLens);
+    const totalLen = Math.min(model.maxSeqLen, maxNewTokens + maxPromptLen);
+    let tokens = Array(promptTokens.length).fill().map(() => Array(totalLen).fill(-1));
+    
+    promptTokens.forEach((t, i) => {
+        tokens[i] = [...t, ...Array(totalLen - t.length).fill(-1)];
+    });
+
+    let prevPos = 0;
+    let finished = Array(promptTokens.length).fill(false);
+
+    for (let curPos = maxPromptLen; curPos < totalLen; curPos++) {
+        let logits = await model.forward(tokens.map(t => t.slice(prevPos, curPos)), prevPos);
+        let nextToken;
+        
+        if (temperature > 0) {
+            nextToken = sample(logits, temperature);
+        } else {
+            nextToken = logits.map(logit => logit.indexOf(Math.max(...logit)));
+        }
+
+        tokens.forEach((t, i) => {
+            if (t[curPos] === -1) {
+                t[curPos] = nextToken[i];
+            }
+            if (t[curPos] === eosId) {
+                finished[i] = true;
+            }
+        });
+
+        prevPos = curPos;
+        if (finished.every(f => f)) {
+            break;
+        }
+    }
+
+    return tokens.map((t, i) => t.slice(promptLens[i], promptLens[i] + maxNewTokens).filter(token => token !== eosId));
 }
