@@ -13,7 +13,7 @@ async function sendMessage() {
                 <div class="timestamp">${timestamp}</div>
             </div>
             <div class="profile-pic">
-                <img src="/user/profile_pic.webp" alt="User Profile Picture">
+                <img src="/user/profile_pic.jpg" alt="User Profile Picture">
             </div>
         `;
         chatBox.appendChild(userMessageElement);
@@ -33,7 +33,7 @@ async function sendMessage() {
         botMessageElement.className = 'chat-message bot';
         botMessageElement.innerHTML = `
             <div class="profile-pic">
-                <img src="bot/profile-pic.jpg" alt="Bot Profile Picture">
+                <img src="/bot/profile-pic.jpg" alt="Bot Profile Picture">
             </div>
             <div class="message-text">
                 ${botResponse}
