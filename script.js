@@ -4,6 +4,8 @@ async function sendMessage() {
     const userMessage = userInput.value.trim();
 
     if (userMessage) {
+        console.log("User Message:", userMessage); // Debugging log
+
         const userMessageElement = document.createElement('div');
         userMessageElement.className = 'chat-message user';
         const timestamp = new Date().toLocaleTimeString();
@@ -16,16 +18,14 @@ async function sendMessage() {
                 <img src="/user/profile_pic.jpg" alt="User Profile Picture">
             </div>
         `;
+        console.log("User Message Element:", userMessageElement); // Debugging log
+
         chatBox.appendChild(userMessageElement);
         userInput.value = '';
 
         // Tokenize user message
         const promptTokens = tokenize(userMessage);
-
-        // Load the model (if not already loaded)
         const model = await loadModel();
-
-        // Generate bot response
         const botResponseTokens = await generate(model, [promptTokens], 50, -1, 1.0);
         const botResponse = detokenize(botResponseTokens[0]);
 
@@ -40,8 +40,12 @@ async function sendMessage() {
                 <div class="timestamp">${timestamp}</div>
             </div>
         `;
+        console.log("Bot Message Element:", botMessageElement); // Debugging log
+
         chatBox.appendChild(botMessageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
+    } else {
+        console.log("No user message entered."); // Debugging log
     }
 }
 
