@@ -1,9 +1,16 @@
+// Add your API key here
+const config = {
+    apiKey: 'sk-21e6871724d447c3b1573ffaa79f0cae'
+};
+
 async function sendMessage() {
     const userInput = document.getElementById('user-input');
     const chatBox = document.getElementById('chat-box');
     const userMessage = userInput.value.trim();
 
     if (userMessage) {
+        console.log("User Message:", userMessage); // Debugging log
+
         const userMessageElement = document.createElement('div');
         userMessageElement.className = 'chat-message user';
         const timestamp = new Date().toLocaleTimeString();
@@ -13,19 +20,19 @@ async function sendMessage() {
                 <div class="timestamp">${timestamp}</div>
             </div>
             <div class="profile-pic">
+
                 <img src="/user/profile-pic.jpg" alt="User Profile Picture">
+
             </div>
         `;
+        console.log("User Message Element:", userMessageElement); // Debugging log
+
         chatBox.appendChild(userMessageElement);
         userInput.value = '';
 
         // Tokenize user message
         const promptTokens = tokenize(userMessage);
-
-        // Load the model (if not already loaded)
         const model = await loadModel();
-
-        // Generate bot response
         const botResponseTokens = await generate(model, [promptTokens], 50, -1, 1.0);
         const botResponse = detokenize(botResponseTokens[0]);
 
@@ -33,15 +40,19 @@ async function sendMessage() {
         botMessageElement.className = 'chat-message bot';
         botMessageElement.innerHTML = `
             <div class="profile-pic">
-                <img src="bot/profile-pic.jpg" alt="Bot Profile Picture">
+                <img src="images/bot/profile-pic.jpg" alt="Bot Profile Picture">
             </div>
             <div class="message-text">
                 ${botResponse}
                 <div class="timestamp">${timestamp}</div>
             </div>
         `;
+        console.log("Bot Message Element:", botMessageElement); // Debugging log
+
         chatBox.appendChild(botMessageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
+    } else {
+        console.log("No user message entered."); // Debugging log
     }
 }
 
