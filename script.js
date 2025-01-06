@@ -13,7 +13,7 @@ async function sendMessage() {
                 <div class="timestamp">${timestamp}</div>
             </div>
             <div class="profile-pic">
-                <img src="/user/profile_pic.webp" alt="User Profile Picture">
+                <img src="/user/profile-pic.jpg" alt="User Profile Picture">
             </div>
         `;
         chatBox.appendChild(userMessageElement);
