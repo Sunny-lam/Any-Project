@@ -20,7 +20,9 @@ async function sendMessage() {
                 <div class="timestamp">${timestamp}</div>
             </div>
             <div class="profile-pic">
-                <img src="images/user/profile_pic.jpg" alt="User Profile Picture">
+
+                <img src="/user/profile-pic.jpg" alt="User Profile Picture">
+
             </div>
         `;
         console.log("User Message Element:", userMessageElement); // Debugging log
