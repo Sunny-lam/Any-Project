@@ -1,3 +1,8 @@
+// Add your API key here
+const config = {
+    apiKey: 'sk-21e6871724d447c3b1573ffaa79f0cae'
+};
+
 async function sendMessage() {
     const userInput = document.getElementById('user-input');
     const chatBox = document.getElementById('chat-box');
@@ -15,7 +20,7 @@ async function sendMessage() {
                 <div class="timestamp">${timestamp}</div>
             </div>
             <div class="profile-pic">
-                <img src="/user/profile_pic.jpg" alt="User Profile Picture">
+                <img src="images/user/profile_pic.jpg" alt="User Profile Picture">
             </div>
         `;
         console.log("User Message Element:", userMessageElement); // Debugging log
@@ -33,7 +38,7 @@ async function sendMessage() {
         botMessageElement.className = 'chat-message bot';
         botMessageElement.innerHTML = `
             <div class="profile-pic">
-                <img src="/bot/profile-pic.jpg" alt="Bot Profile Picture">
+                <img src="images/bot/profile-pic.jpg" alt="Bot Profile Picture">
             </div>
             <div class="message-text">
                 ${botResponse}
