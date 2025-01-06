@@ -27,11 +27,8 @@ async function sendMessage() {
         chatBox.appendChild(userMessageElement);
         userInput.value = '';
 
-        // Tokenize user message
-        const promptTokens = tokenize(userMessage);
-        const model = await loadModel();
-        const botResponseTokens = await generate(model, [promptTokens], 50, -1, 1.0);
-        const botResponse = detokenize(botResponseTokens[0]);
+        // Generate bot response using OpenAI API
+        const botResponse = await generateBotResponse(userMessage);
 
         const botMessageElement = document.createElement('div');
         botMessageElement.className = 'chat-message bot';
@@ -51,6 +48,23 @@ async function sendMessage() {
     } else {
         console.log("No user message entered."); // Debugging log
     }
+}
+
+async function generateBotResponse(userMessage) {
+    const response = await axios.post(
+        'https://api.openai.com/v1/engines/davinci-codex/completions',
+        {
+            prompt: userMessage,
+            max_tokens: 50,
+        },
+        {
+            headers: {
+                'Authorization': `Bearer ${config.apiKey}`,
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+    return response.data.choices[0].text.trim();
 }
 
 // Helper function to tokenize messages
